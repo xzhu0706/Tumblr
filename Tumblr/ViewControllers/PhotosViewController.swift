@@ -11,15 +11,21 @@ import AlamofireImage
 import PKHUD
 
 class PhotosViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-
+    
     @IBOutlet weak var tableView: UITableView!
     
     var refreshControl: UIRefreshControl!
     var posts: [[String: Any]] = []
     
+    override func viewWillAppear(_ animated: Bool) {
+        if let selectionIndexPath = tableView.indexPathForSelectedRow {
+            tableView.deselectRow(at: selectionIndexPath, animated: true)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         refreshControl = UIRefreshControl()
         refreshControl.tintColor = UIColor.clear
         refreshControl.addTarget(self, action: #selector(PhotosViewController.didPullToRefresh(_:)), for: .valueChanged)
@@ -93,6 +99,26 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let cell = cell as! PhotoCell
+        let photoWidth = cell.frame.width * 0.85
+        let photoHeight = photoWidth * 2 / 3
+        let xPos = (cell.frame.width - photoWidth) / 2
+        let yPos = (cell.frame.height - photoHeight) / 2
+        cell.photoImageView.frame = CGRect(x: xPos, y: yPos, width: photoWidth, height: photoHeight)
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let cell = sender as! PhotoCell
+        if let indexPath = tableView.indexPath(for: cell) {
+            let photoDetailsViewController = segue.destination as! PhotoDetailsViewController
+            let post = self.posts[indexPath.row]
+            let photos = post["photos"] as! [[String: Any]]
+            photoDetailsViewController.photos = photos
+        }
+    }
+    
     func fetchPosts() {
         // Network request snippet
         let url = URL(string: "https://api.tumblr.com/v2/blog/humansofnewyork.tumblr.com/posts/photo?api_key=Q6vHoaVm5L1u2ZAW1fqv3Jw48gFzYVg9P0vH0VHl3GVy6quoGV")!
@@ -121,10 +147,10 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
         self.refreshControl.endRefreshing()
         task.resume()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
 }

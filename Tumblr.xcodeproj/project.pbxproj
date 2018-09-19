@@ -18,6 +18,7 @@
 		E80E29272146EF3600B8564D /* TumblrUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80E29262146EF3600B8564D /* TumblrUITests.swift */; };
 		E84B365C2146F216009F0E7D /* PhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84B365B2146F216009F0E7D /* PhotosViewController.swift */; };
 		E84B365E2146FEDC009F0E7D /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84B365D2146FEDC009F0E7D /* PhotoCell.swift */; };
+		E899C04221520739008F2669 /* PhotoDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E899C04121520739008F2669 /* PhotoDetailsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,7 @@
 		E80E29282146EF3600B8564D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E84B365B2146F216009F0E7D /* PhotosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosViewController.swift; sourceTree = "<group>"; };
 		E84B365D2146FEDC009F0E7D /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
+		E899C04121520739008F2669 /* PhotoDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailsViewController.swift; sourceTree = "<group>"; };
 		ED7DB49F54BB0ACD3FAC9463 /* Pods-TumblrUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TumblrUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TumblrUITests/Pods-TumblrUITests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -139,10 +141,10 @@
 		E80E29052146EF3500B8564D /* Tumblr */ = {
 			isa = PBXGroup;
 			children = (
+				E8C3CEA62151F32C003CADEC /* ViewControllers */,
+				E8C3CEA52151F31F003CADEC /* Views */,
 				E80E29062146EF3500B8564D /* AppDelegate.swift */,
-				E84B365B2146F216009F0E7D /* PhotosViewController.swift */,
 				E80E290A2146EF3500B8564D /* Main.storyboard */,
-				E84B365D2146FEDC009F0E7D /* PhotoCell.swift */,
 				E80E290D2146EF3600B8564D /* Assets.xcassets */,
 				E80E290F2146EF3600B8564D /* LaunchScreen.storyboard */,
 				E80E29122146EF3600B8564D /* Info.plist */,
@@ -166,6 +168,23 @@
 				E80E29282146EF3600B8564D /* Info.plist */,
 			);
 			path = TumblrUITests;
+			sourceTree = "<group>";
+		};
+		E8C3CEA52151F31F003CADEC /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E84B365D2146FEDC009F0E7D /* PhotoCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E8C3CEA62151F32C003CADEC /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				E84B365B2146F216009F0E7D /* PhotosViewController.swift */,
+				E899C04121520739008F2669 /* PhotoDetailsViewController.swift */,
+			);
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -382,6 +401,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E899C04221520739008F2669 /* PhotoDetailsViewController.swift in Sources */,
 				E80E29072146EF3500B8564D /* AppDelegate.swift in Sources */,
 				E84B365E2146FEDC009F0E7D /* PhotoCell.swift in Sources */,
 				E84B365C2146F216009F0E7D /* PhotosViewController.swift in Sources */,
@@ -561,6 +581,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LR89T525C6;
 				INFOPLIST_FILE = Tumblr/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -580,6 +601,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LR89T525C6;
 				INFOPLIST_FILE = Tumblr/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
