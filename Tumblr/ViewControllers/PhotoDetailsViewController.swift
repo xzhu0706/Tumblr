@@ -19,10 +19,11 @@ class PhotoDetailsViewController: UIViewController {
         super.viewDidLoad()
         
         let frameWidth = view.frame.width
-        let photoWidth = frameWidth
-        let photoHeight = photoWidth * 3 / 4
+        let photoWidth = frameWidth * 0.95
+        let photoHeight = photoWidth * 2 / 3
         let xPos = (frameWidth - photoWidth) / 2
-        photoImageView.frame = CGRect(x: xPos, y: 0, width: photoWidth, height: photoHeight)
+        let yPos = (self.navigationController?.navigationBar.frame.size.height)! + 30.0
+        photoImageView.frame = CGRect(x: xPos, y: yPos, width: photoWidth, height: photoHeight)
         
         let photo = self.photos[0]
         let orignalPhoto = photo["original_size"] as! [String: Any]
@@ -30,8 +31,6 @@ class PhotoDetailsViewController: UIViewController {
         print(orignalPhotoURLString)
         let orginalURL = URL(string: orignalPhotoURLString)!
         photoImageView.af_setImage(withURL: orginalURL)
-        
     }
-    
     
 }

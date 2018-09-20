@@ -45,13 +45,55 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
         fetchPosts()
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let cell = cell as! PhotoCell
+        let photoWidth = cell.frame.width * 0.9
+        let photoHeight = photoWidth * 2 / 3
+        let xPos = (cell.frame.width - photoWidth) / 2
+        let yPos = (cell.frame.height - photoHeight) / 2 - 10
+        cell.photoImageView.frame = CGRect(x: xPos, y: yPos, width: photoWidth, height: photoHeight)
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
         return posts.count
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 50))
+        headerView.backgroundColor = UIColor(white: 1, alpha: 0.9)
+        
+        // Set the avater
+        let profileView = UIImageView(frame: CGRect(x: 10, y: 5, width: 30, height: 30))
+        profileView.clipsToBounds = true
+        profileView.layer.cornerRadius = 15;
+        profileView.layer.borderColor = UIColor(white: 0.7, alpha: 0.8).cgColor
+        profileView.layer.borderWidth = 1;
+        profileView.af_setImage(withURL: URL(string: "https://api.tumblr.com/v2/blog/humansofnewyork.tumblr.com/avatar")!)
+        headerView.addSubview(profileView)
+        
+        // Set the date
+        let label = UILabel(frame: CGRect(x: 50, y: 5, width: view.frame.width - 50, height: 30))
+        label.font = UIFont.systemFont(ofSize: 16)
+        let post = posts[section]
+        if let date = post["date"] as? String {
+            label.text = date
+        }
+        headerView.addSubview(label)
+        
+        return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PhotoCell", for: indexPath) as! PhotoCell
-        let post = posts[indexPath.row]
+        let post = posts[indexPath.section]
         
         if let photos = post["photos"] as? [[String: Any]] {
             let photo = photos[0]
@@ -99,21 +141,11 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let cell = cell as! PhotoCell
-        let photoWidth = cell.frame.width * 0.85
-        let photoHeight = photoWidth * 2 / 3
-        let xPos = (cell.frame.width - photoWidth) / 2
-        let yPos = (cell.frame.height - photoHeight) / 2
-        cell.photoImageView.frame = CGRect(x: xPos, y: yPos, width: photoWidth, height: photoHeight)
-    }
-    
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let cell = sender as! PhotoCell
         if let indexPath = tableView.indexPath(for: cell) {
             let photoDetailsViewController = segue.destination as! PhotoDetailsViewController
-            let post = self.posts[indexPath.row]
+            let post = self.posts[indexPath.section]
             let photos = post["photos"] as! [[String: Any]]
             photoDetailsViewController.photos = photos
         }
