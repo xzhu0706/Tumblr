@@ -28,9 +28,19 @@ class PhotoDetailsViewController: UIViewController {
         let photo = self.photos[0]
         let orignalPhoto = photo["original_size"] as! [String: Any]
         let orignalPhotoURLString = orignalPhoto["url"] as! String
-        print(orignalPhotoURLString)
         let orginalURL = URL(string: orignalPhotoURLString)!
         photoImageView.af_setImage(withURL: orginalURL)
     }
     
+    @IBAction func didTapOnPhoto(_ sender: Any) {
+        performSegue(withIdentifier: "ToFullScreen", sender: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let fullScreenPhotoViewController = segue.destination as! FullScreenPhotoViewController
+        let photo = self.photos[0]
+        let orignalPhoto = photo["original_size"] as! [String: Any]
+        let orignalPhotoURLString = orignalPhoto["url"] as! String
+        fullScreenPhotoViewController.photoURLString = orignalPhotoURLString
+    }
 }

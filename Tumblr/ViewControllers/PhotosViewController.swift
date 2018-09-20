@@ -10,12 +10,14 @@ import UIKit
 import AlamofireImage
 import PKHUD
 
-class PhotosViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class PhotosViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     
     var refreshControl: UIRefreshControl!
     var posts: [[String: Any]] = []
+    
+    var isMoreDataLoading = false
     
     override func viewWillAppear(_ animated: Bool) {
         if let selectionIndexPath = tableView.indexPathForSelectedRow {
@@ -43,6 +45,15 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
         PKHUD.sharedHUD.show()
         
         fetchPosts()
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if (!isMoreDataLoading) {
+            isMoreDataLoading = true
+            
+            // ... Code to load more results ...
+            
+        }
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
