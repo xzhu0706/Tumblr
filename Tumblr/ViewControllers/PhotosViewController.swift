@@ -160,6 +160,7 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
         return cell
     }
     
+    /*
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         let cell = tableView.cellForRow(at: indexPath) as! PhotoCell
         
@@ -171,6 +172,7 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
             return indexPath
         }
     }
+    */
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let cell = sender as! PhotoCell
@@ -178,7 +180,9 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
             let photoDetailsViewController = segue.destination as! PhotoDetailsViewController
             let post = self.posts[indexPath.section]
             let photos = post["photos"] as! [[String: Any]]
+            let trails = post["trail"] as! [[String: Any]]
             photoDetailsViewController.photos = photos
+            photoDetailsViewController.trails = trails
         }
     }
     

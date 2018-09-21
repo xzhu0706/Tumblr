@@ -59,7 +59,7 @@ limitations under the License.
 
 **Tumblr** is a photo browsing app app using the [The Tumblr API](https://www.tumblr.com/docs/en/api/v2#posts).
 
-Time spent: **5** hours spent in total
+Time spent: **6** hours spent in total
 
 ## User Stories
 
@@ -75,7 +75,7 @@ The following **stretch** user stories are implemented:
 
 The following **additional** user stories are implemented:
 
-- [ ] List anything else that you can get done to improve the app functionality! (+1-3pts)
+- [x] Add text content in the detail view (+1-3pts)
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
@@ -92,7 +92,7 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+The text contents from the API are HTML elements, therefore I have to look up how to convert HTML elements to string. I was able to do this by writing a function to convert the HTML elements (String) to Data using utf-8 string encoding, then instantiate an NSAttributedString to contain the data and set its document type as html.  
 
 ## License
 

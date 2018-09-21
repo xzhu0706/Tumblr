@@ -17,13 +17,12 @@ class PhotoCell: UITableViewCell {
         // Initialization code
     }
 
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Set cell selection style
-        let backgroundView = UIView()
-        backgroundView.backgroundColor = UIColor.darkGray
-        selectedBackgroundView = backgroundView
+        self.selectionStyle = .none
     }
+    
 
 }
