@@ -26,16 +26,20 @@ class FullScreenPhotoViewController: UIViewController, UIScrollViewDelegate {
         let xPos = (frameWidth - photoWidth) / 2
         imageView.frame = CGRect(x: xPos, y: (frameHeight - photoHeight) / 2 - 30, width: photoWidth, height: photoHeight)
         
-        closeButton.frame = CGRect(x: 10, y: 30, width: 300, height: 10)
-        closeButton.setTitle("Close", for: UIControlState.normal)
+        closeButton.frame = CGRect(x: 15, y: 30, width: 20, height: 20)
+        closeButton.backgroundColor = UIColor.clear
+        closeButton.setImage(UIImage(named: "closebutton"), for: UIControlState.normal)
         closeButton.contentHorizontalAlignment = .left
     
-        scrollView.frame = CGRect(x: 0, y: closeButton.frame.maxY, width: frameWidth, height: frameHeight - 2 * closeButton.frame.maxY)
-        //scrollView.contentSize = CGSize(width: frameWidth, height: 1000)
+        scrollView.frame = CGRect(x: 0, y: 0, width: frameWidth, height: frameHeight)
+        scrollView.minimumZoomScale = 1.0
+        scrollView.maximumZoomScale = 4.0
         scrollView.delegate = self
         
         imageView.af_setImage(withURL: URL(string: photoURLString)!)
         scrollView.contentSize = imageView.image!.size
+        
+        view.bringSubview(toFront: closeButton)
     }
     
     @IBAction func didTapOnBackButton(_ sender: Any) {

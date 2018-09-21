@@ -14,10 +14,11 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
     
     @IBOutlet weak var tableView: UITableView!
     
-    var refreshControl: UIRefreshControl!
     var posts: [[String: Any]] = []
     
+    var refreshControl: UIRefreshControl!
     var isMoreDataLoading = false
+    var loadingMoreView:InfiniteScrollActivityView?
     
     override func viewWillAppear(_ animated: Bool) {
         if let selectionIndexPath = tableView.indexPathForSelectedRow {
@@ -28,9 +29,17 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Set up refresh control
         refreshControl = UIRefreshControl()
         refreshControl.tintColor = UIColor.clear
         refreshControl.addTarget(self, action: #selector(PhotosViewController.didPullToRefresh(_:)), for: .valueChanged)
+        
+        // Set up Infinite Scroll loading indicator
+        let frame = CGRect(x: 0, y: tableView.contentSize.height, width: tableView.bounds.size.width, height: InfiniteScrollActivityView.defaultHeight)
+        loadingMoreView = InfiniteScrollActivityView(frame: frame)
+        loadingMoreView!.isHidden = true
+        tableView.addSubview(loadingMoreView!)
+        tableView.contentInset.bottom += InfiniteScrollActivityView.defaultHeight
         
         tableView.insertSubview(refreshControl, at: 0)
         tableView.delegate = self
@@ -49,10 +58,21 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if (!isMoreDataLoading) {
-            isMoreDataLoading = true
+            // Calculate the position of one screen length before the bottom of the results
+            let scrollViewContentHeight = tableView.contentSize.height
+            let scrollOffsetThreshold = scrollViewContentHeight - tableView.bounds.size.height
             
-            // ... Code to load more results ...
-            
+            // When the user has scrolled past the threshold, start requesting
+            if(scrollView.contentOffset.y > scrollOffsetThreshold && tableView.isDragging) {
+                isMoreDataLoading = true
+                
+                // Update position of loadingMoreView, and start loading indicator
+                let frame = CGRect(x: 0, y: tableView.contentSize.height, width: tableView.bounds.size.width, height: InfiniteScrollActivityView.defaultHeight)
+                loadingMoreView?.frame = frame
+                loadingMoreView!.startAnimating()
+                
+                fetchPosts()
+            }
         }
     }
     
@@ -164,12 +184,13 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
     
     func fetchPosts() {
         // Network request snippet
-        let url = URL(string: "https://api.tumblr.com/v2/blog/humansofnewyork.tumblr.com/posts/photo?api_key=Q6vHoaVm5L1u2ZAW1fqv3Jw48gFzYVg9P0vH0VHl3GVy6quoGV")!
+        let url = URL(string: "https://api.tumblr.com/v2/blog/humansofnewyork.tumblr.com/posts/photo?api_key=Q6vHoaVm5L1u2ZAW1fqv3Jw48gFzYVg9P0vH0VHl3GVy6quoGV&offset=\(posts.count)")!
         let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
         session.configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
         let task = session.dataTask(with: url) { (data, response, error) in
+            self.isMoreDataLoading = false
+            self.loadingMoreView?.stopAnimating()
             if error != nil {
-                
                 // Display error alert if fail to load
                 let alertController = UIAlertController(title: "Error", message: "Network is not available, please check Settings.", preferredStyle: .alert)
                 let OKAction = UIAlertAction(title: "OK", style: .default)
@@ -180,7 +201,7 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
                 
                 // Get the posts and store in posts property
                 let responseDictionary = dataDictionary["response"] as! [String: Any]
-                self.posts = responseDictionary["posts"] as! [[String: Any]]
+                self.posts += responseDictionary["posts"] as! [[String: Any]]
                 
                 // Reload the table view
                 self.tableView.reloadData()

@@ -59,7 +59,7 @@ limitations under the License.
 
 **Tumblr** is a photo browsing app app using the [The Tumblr API](https://www.tumblr.com/docs/en/api/v2#posts).
 
-Time spent: **X** hours spent in total
+Time spent: **5** hours spent in total
 
 ## User Stories
 
@@ -71,7 +71,7 @@ The following **stretch** user stories are implemented:
 
 - [x] Add Avatar and Publish Dates (+2pt)
 - [x] Zoomable Photo View (+2pt)
-- [ ] Infinite Scrolling (+2pt)
+- [x] Infinite Scrolling (+2pt)
 
 The following **additional** user stories are implemented:
 
@@ -86,7 +86,7 @@ Please list two areas of the assignment you'd like to **discuss further with you
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='./demo/tumblr_2.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
